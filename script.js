@@ -36,7 +36,15 @@ document.addEventListener('DOMContentLoaded', function () {
         updateLifeTotal();
     });
 
-    rollD20Button.addEventListener('click', displayOutcomeBasedOnRange);
+    rollD20Button.addEventListener('click', function () {
+        rollD20Button.disabled = true;
+    
+        displayOutcomeBasedOnRange();
+    
+        setTimeout(function () {
+            rollD20Button.disabled = false;
+        }, 1000);
+    });
 
     resetButton.addEventListener('click', function () {
         lifeTotal = 40;
@@ -71,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (roll > 16 && roll <=19) {
             outcomeMessage = 'PlayerBot played 1 spell, drew two extra cards and played an additional land.';
         } else {
-            outcomeMessage = 'Nothing happens';
+            outcomeMessage = 'Player w/ the lowest total Attack and Defense may scry 4 then draw 2 cards, the player with the highest may scry 2 and draw 1.';
         }
 
         if (outcomeMessage === previousOutcome) {
