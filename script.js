@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
         setTimeout(function () {
             rollD20Button.disabled = false;
-        }, 1000);
+        }, 3000);
     });
 
     resetButton.addEventListener('click', function () {
