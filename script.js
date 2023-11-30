@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let lifeTotal = 40;
     let previousRoll = 0;
     let previousOutcome = '';
+    let outcomeMarker = 0;
 
     increaseLifeButton.addEventListener('click', function () {
         lifeTotal = parseInt(lifeTotalElement.value);
@@ -72,20 +73,25 @@ document.addEventListener('DOMContentLoaded', function () {
     
         if (roll <= 3) {
             outcomeMessage = 'Exile all nonland permanents. PlayerBot takes 10 damage.';
+            outcomeMarker = 1;
         } else if (roll > 3 && roll <=7) {
             outcomeMessage = 'Sacrifice all creatures. PlayerBot takes 10 damage.';
+            outcomeMarker = 1;
         } else if (roll > 7 && roll <= 16) {
             outcomeMessage = 'Player w/ highest total Attack and Defense sacrifice target permanent. PlayerBot played 2 spells and drew a second card.';
+            outcomeMarker = 2;
         } else if (roll > 16 && roll <=19) {
             outcomeMessage = 'PlayerBot played 1 spell, drew two extra cards and played an additional land.';
+            outcomeMarker = 3;
         } else {
             outcomeMessage = 'Player w/ the lowest total Attack and Defense may scry 4 then draw 2 cards, the player with the highest may scry 2 and draw 1.';
+            outcomeMarker = 4;
         }
 
-        if (outcomeMessage === previousOutcome) {
+        if (outcomeMarker === previousOutcome) {
             return displayOutcomeBasedOnRange();
         } else {
-            previousOutcome = outcomeMessage;
+            previousOutcome = outcomeMarker;
             displayOutcome(outcomeMessage);
         }
     
