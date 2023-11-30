@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#life-counter {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+button {
+    font-size: 16px;
+    padding: 10px;
+    margin: 0 10px;
+}
+
+#roll-d20 {
+    background-color: #ff0000; /* adjust as needed */
+    color: #ffffff; /* adjust as needed */
+}
+
+#reset {
+    background-color: #0000ff; /* adjust as needed */
+    color: #ffffff; /* adjust as needed */
+}
+
+#life-total {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    margin: 0 10px;
+    width: 60px;
+}
+
+#outcome {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    align-items: center;
+    word-wrap: break-word;
+    max-width: 300px;
+}
