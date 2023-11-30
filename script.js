@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let lifeTotal = 40;
     let previousRoll = 0;
-    let previousOutcome = '';
+    let previousOutcome = 0;
     let outcomeMarker = 0;
 
     increaseLifeButton.addEventListener('click', function () {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
         setTimeout(function () {
             rollD20Button.disabled = false;
-        }, 3000);
+        }, 2000);
     });
 
     resetButton.addEventListener('click', function () {
