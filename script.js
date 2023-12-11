@@ -4,14 +4,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const increaseLifeButton10 = document.getElementById('increase-life-10');
     const decreaseLifeButton = document.getElementById('decrease-life');
     const decreaseLifeButton10 = document.getElementById('decrease-life-10');
-    const rollD20Button = document.getElementById('roll-d20');
+    const rollDiceButton = document.getElementById('roll-d20');
     const outcomeElement = document.getElementById('outcome');
     const resetButton = document.getElementById('reset');
 
     let lifeTotal = 40;
     let previousRoll = 0;
     let previousOutcome = 0;
-    let outcomeMarker = 0;
+    //let outcomeMarker = 0;
+    let spellDiceOutcome = 0;
 
     increaseLifeButton.addEventListener('click', function () {
         lifeTotal = parseInt(lifeTotalElement.value);
@@ -37,13 +38,23 @@ document.addEventListener('DOMContentLoaded', function () {
         updateLifeTotal();
     });
 
-    rollD20Button.addEventListener('click', function () {
-        rollD20Button.disabled = true;
+    rollDiceButton.addEventListener('click', function () {
+        rollDiceButton.disabled = true;
     
-        displayOutcomeBasedOnRange();
+        let clearDiceOutcome = clearDice();
+        let yellowDiceOutcome = yellowDice();
+        let graveWheelDiceOutcome = graveWheelDice();
+        let rampDiceOutcome = rampDice();
+        let aggroDiceOutcome = aggroDice();
     
+        outcomeElement.innerHTML = `Clear Dice: ${clearDiceOutcome}<br>` +
+        `Yellow Dice: ${yellowDiceOutcome}<br>` +
+        `Grave/Wheel Dice: ${graveWheelDiceOutcome}<br>` +
+        `Ramp Dice: ${rampDiceOutcome}<br>` +
+        `Aggro Dice: ${aggroDiceOutcome}`;
+
         setTimeout(function () {
-            rollD20Button.disabled = false;
+            rollDiceButton.disabled = false;
         }, 2000);
     });
 
@@ -57,48 +68,132 @@ document.addEventListener('DOMContentLoaded', function () {
         lifeTotalElement.value = lifeTotal;
     }
 
-    function rollD20() {
-        let roll = Math.floor(Math.random() * 20) + 1;
+    function rollDice(diceSize) {
+        let rollNumber = diceSize;
+        let roll = Math.floor(Math.random() * rollNumber) + 1;
+        
         if (roll === previousRoll) {
-            return rollD20();
+            return rollDice();
         } else {
             previousRoll = roll;
             return roll;
         }
     }
 
-    function displayOutcomeBasedOnRange() {
-        const roll = rollD20();
+    function clearDice() {
+        const roll = rollDice(30);
         let outcomeMessage;
     
-        if (roll <= 3) {
-            outcomeMessage = 'Exile all nonland permanents. PlayerBot takes 10 damage.';
-            outcomeMarker = 1;
-        } else if (roll > 3 && roll <=7) {
-            outcomeMessage = 'Sacrifice all creatures. PlayerBot takes 10 damage.';
-            outcomeMarker = 1;
-        } else if (roll > 7 && roll <= 16) {
-            outcomeMessage = 'Player w/ highest total Attack and Defense sacrifice target permanent. PlayerBot played 2 spells and drew a second card.';
-            outcomeMarker = 2;
-        } else if (roll > 16 && roll <=19) {
-            outcomeMessage = 'PlayerBot played 1 spell, drew two extra cards and played an additional land.';
-            outcomeMarker = 3;
+        if (roll == 1) {
+            outcomeMessage = 'Exile all nonland permanents. PlayerBot takes 6 damage..';
+        } else if (roll == 2) {
+            outcomeMessage = 'Exile all creatures. PlayerBot takes 6 damage.';
+        } else if (roll == 3) {
+            outcomeMessage = 'Destroy all nonland permanents. PlayerBot takes 6 damage.';
+        } else if (roll == 4) {
+            outcomeMessage = 'Destroy all creatures. PlayerBot takes 6 damage.';
+        } else if (roll == 5) {
+            outcomeMessage = 'Player with the highest total Attack and Defense returns all nonland permanents to their hand. PlayerBot takes 6 damage.';
         } else {
-            outcomeMessage = 'Player w/ the lowest total Attack and Defense may scry 4 then draw 2 cards, the player with the highest may scry 2 and draw 1.';
-            outcomeMarker = 4;
-        }
-
-        if (outcomeMarker === previousOutcome) {
-            return displayOutcomeBasedOnRange();
-        } else {
-            previousOutcome = outcomeMarker;
-            displayOutcome(outcomeMessage);
+            outcomeMessage = 'Nothing happens.';
         }
     
-        displayOutcome(outcomeMessage);
+        //displayOutcome(outcomeMessage);
+
+        return outcomeMessage;
     }
 
-    function displayOutcome(outcome) {
-        outcomeElement.textContent = outcome;
+    function yellowDice() {
+        const roll = rollDice(20);
+        let outcomeMessage;
+    
+        if (roll == 1) {
+            outcomeMessage = 'Player with the highest total Attack and Defense exile target permanent chosen by an opponent.';
+        } else if (roll == 2) {
+            outcomeMessage = 'Player with the highest total Attack and Defense exiles two target permanents chosen by an opponent.';
+        } else if (roll == 3) {
+            outcomeMessage = 'Player with the highest total Attack and Defense destroys two target permanents chosen by an opponent.';
+        } else if (roll == 4) {
+            outcomeMessage = 'Player with the highest total Attack and Defense sacrifice a permanent with the highest total mana value.';
+        } else if (roll == 5) {
+            outcomeMessage = 'Player with the highest total Attack and Defense Discards 2 cards.';
+        } else {
+            outcomeMessage = 'Nothing happens.';
+        }
+    
+        //displayOutcome(outcomeMessage);
+
+        return outcomeMessage;
     }
+
+    function graveWheelDice() {
+        const roll = rollDice(20);
+        let outcomeMessage;
+    
+        if (roll == 1) {
+            outcomeMessage = 'All players exile their graveyards.';
+        } else if (roll == 2) {
+            outcomeMessage = 'All players Discard their hand and draw 7 cards.';
+        } else {
+            outcomeMessage = 'Nothing happens.';
+        }
+    
+        //displayOutcome(outcomeMessage);
+
+        return outcomeMessage;
+    }
+
+    function rampDice() {
+        const roll = rollDice(10);
+        let outcomeMessage;
+    
+        if (roll == 1) {
+            outcomeMessage = 'PlayerBot draws one additional card.';
+        } else if (roll == 2) {
+            outcomeMessage = 'PlayerBot draws one additional card and Discards a card.';
+        } else if (roll == 3) {
+            outcomeMessage = 'PlayerBot draws two additional cards and Discards two cards.';
+        } else if (roll == 4) {
+            outcomeMessage = 'PlayerBot draws two additional cards.';
+        } else if (roll == 5) {
+            outcomeMessage = 'PlayerBot plays one additional land and draws two additional cards.';
+        } else if (roll == 6) {
+            outcomeMessage = 'PlayerBot plays two additional lands and draws two additional cards.';
+        }else {
+            outcomeMessage = 'Nothing happens.';
+        }
+    
+        //displayOutcome(outcomeMessage);
+
+        return outcomeMessage;
+    }
+
+    function aggroDice() {
+        const roll = rollDice(20);
+        let outcomeMessage;
+    
+        if (roll == 1) {
+            outcomeMessage = 'PlayerBot attacks the player with the highest life total with a 8/8 that dies after combat.';
+        } else if (roll == 2) {
+            outcomeMessage = 'PlayerBot attacks the player with the highest life total with a 6/1 trample that dies after combat.';
+        } else if (roll >= 3 && roll <= 4) {
+            outcomeMessage = 'PlayerBot attacks the player with the highest life total with a 5/2 menace that dies after combat.';
+        } else if (roll >= 5 && roll <= 6) {
+            outcomeMessage = 'PlayerBot attacks the player with the highest life total with a 4/3 flying that dies after combat.';
+        } else if (roll >= 7 && roll <= 11) {
+            outcomeMessage = 'PlayerBot takes 3 damage.';
+        } else if (roll == 12) {
+            outcomeMessage = 'PlayerBot takes 6 damage.';
+        }else {
+            outcomeMessage = 'Nothing happens.';
+        }
+    
+        //displayOutcome(outcomeMessage);
+
+        return outcomeMessage;
+    }
+
+    //function displayOutcome(outcome) {
+    //    outcomeElement.textContent = outcome;
+    //}
 });

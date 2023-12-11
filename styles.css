@@ -1,10 +1,14 @@
 body {
     font-family: Arial, sans-serif;
+    color: #ffffff;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
     margin: 0;
+    background-image: url(images/background.jpg);
+    background-size: cover;
 }
 
 .container {
